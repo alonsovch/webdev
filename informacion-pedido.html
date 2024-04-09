@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Información del Pedido</title>
+    <style>
+      img {
+        cursor: pointer;
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Información del Pedido</h1>
+
+    <p><strong>Tipo de Producto:</strong> Fruta</p>
+    <p><strong>Producto(s):</strong> Arándano, Naranja, Frutilla, Limón</p>
+    <p>
+      <strong>Descripción:</strong> Quiero frutas maduras por favor, necesito la
+      mejor calidad ya que este pedido es para un evento.
+    </p>
+    <p><strong>Región:</strong> Metropolitana</p>
+    <p><strong>Comuna:</strong> Santiago</p>
+    <p><strong>Nombre del comprador:</strong> Gustavo Fring</p>
+    <p><strong>Email del comprador:</strong> gfring99@polloshermanos.net</p>
+    <p><strong>Número de Celular del comprador:</strong> 56987654321</p>
+    <p><button id="volver">Volver</button></p>
+
+    <script>
+      document.getElementById("volver").addEventListener("click", function () {
+        window.location.href = "/ver-pedidos.html";
+      });
+    </script>
+  </body>
+</html>

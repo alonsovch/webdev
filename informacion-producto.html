@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Información del Producto</title>
+    <style>
+      img {
+        cursor: pointer;
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Información del Producto</h1>
+
+    <p><strong>Tipo de Producto:</strong> Fruta</p>
+    <p><strong>Producto(s):</strong> Arándano, Naranja, Frutilla, Limón</p>
+    <p>
+      <strong>Descripción de los Productos:</strong> Frutas muy ricas, sin
+      preservantes ni quimicos. Directos desde la huerta a tu casa.
+    </p>
+    <p><strong>Región:</strong> Metropolitana</p>
+    <p><strong>Comuna:</strong> Santiago</p>
+    <p><strong>Nombre del productor:</strong> Walter White</p>
+    <p><strong>Email del productor:</strong> walterwhite@polloshermanos.net</p>
+    <p><strong>Número de Celular del productor:</strong> 56987654321</p>
+
+    <p><strong>Foto del Producto:</strong></p>
+    <img
+      id="imagenProducto"
+      src="arandano.jpg"
+      alt="Arándano"
+      width="640"
+      height="480"
+    />
+    <p><button id="volver">Volver</button></p>
+
+    <script>
+      document.getElementById("volver").addEventListener("click", function () {
+        window.location.href = "/ver-productos.html";
+      });
+
+      function cambiarTamaño() {
+        var img = document.getElementById("imagenProducto");
+        if (img.style.width === "1280px") {
+          img.style.width = "640px";
+          img.style.height = "480px";
+        } else {
+          img.style.width = "1280px";
+          img.style.height = "1024px";
+        }
+      }
+      document
+        .getElementById("imagenProducto")
+        .addEventListener("click", cambiarTamaño);
+    </script>
+  </body>
+</html>

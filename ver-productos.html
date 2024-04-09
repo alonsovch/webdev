@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabla de Productos</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      tr:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="productos">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Producto(s)</th>
+          <th>Región</th>
+          <th>Comuna</th>
+          <th>Fotos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fruta</td>
+          <td>Arándano</td>
+          <td>Metropolitana</td>
+          <td>Santiago</td>
+          <td>
+            <img src="arandano.jpg" alt="Arándano" width="120" height="120" />
+          </td>
+        </tr>
+        <tr>
+          <td>Verdura</td>
+          <td>Cebolla</td>
+          <td>Valparaíso</td>
+          <td>Viña del Mar</td>
+          <td>
+            <img src="cebolla.jpg" alt="Cebolla" width="120" height="120" />
+          </td>
+        </tr>
+        <tr>
+          <td>Fruta</td>
+          <td>Kiwi</td>
+          <td>Biobío</td>
+          <td>Concepción</td>
+          <td><img src="kiwi.jpg" alt="Kiwi" width="120" height="120" /></td>
+        </tr>
+        <tr>
+          <td>Fruta</td>
+          <td>Naranja</td>
+          <td>Araucanía</td>
+          <td>Temuco</td>
+          <td>
+            <img src="naranja.jpg" alt="Naranja" width="120" height="120" />
+          </td>
+        </tr>
+        <tr>
+          <td>Verdura</td>
+          <td>Pimiento</td>
+          <td>Antofagasta</td>
+          <td>Antofagasta</td>
+          <td>
+            <img src="pimiento.jpg" alt="Pimiento" width="120" height="120" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="volver">Volver</button>
+
+    <script>
+      document.getElementById("volver").addEventListener("click", function () {
+        window.location.href = "/index.html";
+      });
+      let filas = document.querySelectorAll("#productos tbody tr");
+      filas.forEach(function (fila) {
+        fila.addEventListener("click", function () {
+          window.location.href = "informacion-producto.html";
+        });
+      });
+    </script>
+  </body>
+</html>

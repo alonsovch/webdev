@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agregar producto</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <style>
+    textarea {
+      resize: none;
+    }
+  </style>
+  <body>
+    <form>
+      <div>
+        <label for="tipo-producto">Tipo producto</label>
+        <select name="tipo-producto" id="tipo-producto">
+          <option value="">Elegir tipo de producto</option>
+        </select>
+      </div>
+      <div>
+        <label for="producto">Producto</label>
+        <select name="producto" id="producto" multiple size="10">
+          <option value="">Elegir producto</option>
+        </select>
+      </div>
+      <div>
+        <label for="producto">Descripcion</label>
+        <textarea
+          name="producto"
+          id="producto"
+          cols="50"
+          rows="4"
+          draggable="false"
+        ></textarea>
+      </div>
+      <div>
+        <label for="multimedia">Fotos de productos</label>
+        <input type="file" id="multimedia" name="multimedia" multiple />
+      </div>
+      <div>
+        <label for="region">Región</label>
+        <select name="region" id="region">
+          <option value="">Elegir region</option>
+        </select>
+      </div>
+      <div>
+        <label for="comuna">Comuna</label>
+        <select name="comuna" id="comuna">
+          <option value="">Elegir comuna</option>
+        </select>
+      </div>
+      <div>
+        <label for="nombre-productor">Nombre del productor</label>
+        <input
+          type="text"
+          id="nombre-productor"
+          name="nombre-productor"
+          size="80"
+        />
+      </div>
+      <div>
+        <label for="email-productor">Email del productor</label>
+        <input
+          type="text"
+          id="email-productor"
+          name="email-productor"
+          size="30"
+        />
+      </div>
+      <div>
+        <label for="numero-productor">Numero celular del productor</label>
+        <input
+          type="text"
+          id="numero-productor"
+          name="numero-productor"
+          size="15"
+        />
+      </div>
+      <button type="submit">Agregar</button>
+    </form>
+    <script src="script.js" type="module"></script>
+    <script>
+      import { validarFormulario } from "./validador.js";
+      const formulario = document.getElementById("formulario");
+      formulario.addEventListener("submit", validarFormulario);
+    </script>
+  </body>
+</html>
