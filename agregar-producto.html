@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agregar producto</title>
-    <link rel="stylesheet" href="styles.css" />
   </head>
   <style>
     textarea {
@@ -12,7 +11,7 @@
     }
   </style>
   <body>
-    <form>
+    <form id="formulario">
       <div>
         <label for="tipo-producto">Tipo producto</label>
         <select name="tipo-producto" id="tipo-producto">
@@ -78,13 +77,11 @@
           size="15"
         />
       </div>
-      <button type="submit">Agregar</button>
+      <button type="submit">Agregar Producto(s)</button>
     </form>
-    <script src="script.js" type="module"></script>
-    <script>
-      import { validarFormulario } from "./validador.js";
-      const formulario = document.getElementById("formulario");
-      formulario.addEventListener("submit", validarFormulario);
-    </script>
+    <button id="volverInicio" style="display: none">
+      Volver a la página de inicio
+    </button>
+    <script src="scripts/scriptProducto.js" type="module"></script>
   </body>
 </html>

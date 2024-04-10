@@ -1,5 +1,6 @@
-import regionesData from "./regionesData.js";
-import productosData from "./productos.js";
+import regionesData from "../data/regionesData.js";
+import productosData from "../data/productosData.js";
+import { validarFormulario } from "./validatorPedido.js";
 
 function obtenerRegiones() {
   const regionSelect = document.getElementById("region");
@@ -17,13 +18,14 @@ function obtenerComunas() {
   const regionData = regionesData.regiones.find((r) => r.region === region);
   const comunaSelect = document.getElementById("comuna");
   comunaSelect.innerHTML = "";
-  if (region)
+  if (regionData) {
     regionData.comunas.forEach((comuna) => {
       const comunaOption = document.createElement("option");
       comunaOption.value = comuna;
       comunaOption.textContent = comuna;
       comunaSelect.appendChild(comunaOption);
     });
+  }
 }
 
 function obtenerTipoProducto() {
@@ -55,11 +57,23 @@ function obtenerProductos() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  const formulario = document.getElementById("formulario");
+  formulario.addEventListener("submit", function (event) {
+    event.preventDefault();
+    validarFormulario(event);
+  });
+
   obtenerRegiones();
   obtenerTipoProducto();
-});
 
-document.getElementById("region").addEventListener("change", obtenerComunas);
-document
-  .getElementById("tipo-producto")
-  .addEventListener("change", obtenerProductos);
+  document.getElementById("region").addEventListener("change", obtenerComunas);
+  document
+    .getElementById("tipo-producto")
+    .addEventListener("change", obtenerProductos);
+
+  const volverInicioBtn = document.getElementById("volverInicio");
+  volverInicioBtn.addEventListener("click", function () {
+    event.preventDefault();
+    window.location.href = "index.html";
+  });
+});

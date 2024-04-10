@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agregar pedido</title>
+  </head>
+  <style>
+    textarea {
+      resize: none;
+    }
+  </style>
+  <body>
+    <form id="formulario">
+      <div>
+        <label for="tipo-producto">Tipo producto</label>
+        <select name="tipo-producto" id="tipo-producto">
+          <option value="">Elegir tipo de producto</option>
+        </select>
+      </div>
+      <div>
+        <label for="producto">Producto</label>
+        <select name="producto" id="producto" multiple size="10">
+          <option value="">Elegir producto</option>
+        </select>
+      </div>
+      <div>
+        <label for="producto">Descripcion</label>
+        <textarea
+          name="producto"
+          id="producto"
+          cols="50"
+          rows="4"
+          draggable="false"
+        ></textarea>
+      </div>
+      <div>
+        <label for="region">Región</label>
+        <select name="region" id="region">
+          <option value="">Elegir region</option>
+        </select>
+      </div>
+      <div>
+        <label for="comuna">Comuna</label>
+        <select name="comuna" id="comuna">
+          <option value="">Elegir comuna</option>
+        </select>
+      </div>
+      <div>
+        <label for="nombre-productor">Nombre del comprador</label>
+        <input
+          type="text"
+          id="nombre-comprador"
+          name="nombre-comprador"
+          size="80"
+        />
+      </div>
+      <div>
+        <label for="email-comprador">Email del comprador</label>
+        <input
+          type="text"
+          id="email-comprador"
+          name="email-comprador"
+          size="30"
+        />
+      </div>
+      <div>
+        <label for="numero-comprador">Numero celular del comprador</label>
+        <input
+          type="text"
+          id="numero-comprador"
+          name="numero-comprador"
+          size="15"
+        />
+      </div>
+      <button type="submit">Agregar Pedido</button>
+    </form>
+    <button id="volverInicio" style="display: none">
+      Volver a la página de inicio
+    </button>
+    <script src="scripts/scriptPedido.js" type="module"></script>
+  </body>
+</html>
