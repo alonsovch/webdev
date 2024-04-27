@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tabla de Productos</title>
-    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="../static/styles/styles.css" />
   </head>
   <body>
     <table id="productos">
@@ -25,7 +25,7 @@
           <td>Santiago</td>
           <td>
             <img
-              src="assets/arandano.jpg"
+              src="../static/assets/arandano.jpg"
               alt="Arándano"
               width="120"
               height="120"
@@ -39,7 +39,7 @@
           <td>Viña del Mar</td>
           <td>
             <img
-              src="assets/cebolla.jpg"
+              src="../static/assets/cebolla.jpg"
               alt="Cebolla"
               width="120"
               height="120"
@@ -52,7 +52,12 @@
           <td>Biobío</td>
           <td>Concepción</td>
           <td>
-            <img src="assets/kiwi.jpg" alt="Kiwi" width="120" height="120" />
+            <img
+              src="../static/assets/kiwi.jpg"
+              alt="Kiwi"
+              width="120"
+              height="120"
+            />
           </td>
         </tr>
         <tr>
@@ -62,7 +67,7 @@
           <td>Temuco</td>
           <td>
             <img
-              src="assets/naranja.jpg"
+              src="../static/assets/naranja.jpg"
               alt="Naranja"
               width="120"
               height="120"
@@ -76,7 +81,7 @@
           <td>Antofagasta</td>
           <td>
             <img
-              src="assets/pimiento.jpg"
+              src="../static/assets/pimiento.jpg"
               alt="Pimiento"
               width="120"
               height="120"
@@ -89,12 +94,12 @@
 
     <script>
       document.getElementById("volver").addEventListener("click", function () {
-        window.location.href = "/index.html";
+        window.location.href = "/";
       });
       let filas = document.querySelectorAll("#productos tbody tr");
       filas.forEach(function (fila) {
         fila.addEventListener("click", function () {
-          window.location.href = "informacion-producto.html";
+          window.location.href = "informacion-producto";
         });
       });
     </script>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ver productos</title>
-    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="../static/styles/styles.css" />
   </head>
   <body>
     <table id="pedidos">
@@ -59,12 +59,12 @@
 
     <script>
       document.getElementById("volver").addEventListener("click", function () {
-        window.location.href = "/index.html";
+        window.location.href = "/";
       });
       let filas = document.querySelectorAll("#pedidos tbody tr");
       filas.forEach(function (fila) {
         fila.addEventListener("click", function () {
-          window.location.href = "informacion-pedido.html";
+          window.location.href = "informacion-pedido";
         });
       });
     </script>
