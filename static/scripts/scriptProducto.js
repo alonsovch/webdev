@@ -74,6 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const volverInicioBtn = document.getElementById("volverInicio");
   volverInicioBtn.addEventListener("click", function () {
     event.preventDefault();
-    window.location.href = "index.html";
+    window.location.href = "/";
   });
 });
