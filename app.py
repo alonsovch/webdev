@@ -4,6 +4,15 @@ from database.db import get_connection
 
 app = Flask(__name__)
 
+UPLOAD_FOLDER = 'static/uploads'
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 #16MB
+
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    return "Archivo demasiado grande", 413
+
 @app.route('/')
 def index():
     return render_template('index.html')
