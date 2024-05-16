@@ -78,7 +78,6 @@ def ver_productos():
     productos = db.get_productos_paginados(page, PRODUCTS_PER_PAGE)
     return render_template('ver-productos.html', productos=productos, page=page, per_page=PRODUCTS_PER_PAGE)
 
-
 @app.route('/check_db')
 def check_db():
     try:

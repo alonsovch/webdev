@@ -75,14 +75,14 @@ def get_productos_paginados(page, per_page):
     offset = (page - 1) * per_page
     cursor.execute("""
         SELECT p.id, p.tipo, GROUP_CONCAT(tpf.nombre) AS productos, r.nombre AS region, c.nombre AS comuna, f.nombre_archivo AS foto_nombre
-FROM producto p
-JOIN comuna c ON p.comuna_id = c.id
-JOIN region r ON c.region_id = r.id
-JOIN producto_verdura_fruta pvf ON p.id = pvf.producto_id
-JOIN tipo_verdura_fruta tpf ON pvf.tipo_verdura_fruta_id = tpf.id
-LEFT JOIN foto f ON p.id = f.producto_id
-GROUP BY p.id, p.tipo, r.nombre, c.nombre, f.nombre_archivo
-LIMIT %s OFFSET %s
+        FROM producto p
+        JOIN comuna c ON p.comuna_id = c.id
+        JOIN region r ON c.region_id = r.id
+        JOIN producto_verdura_fruta pvf ON p.id = pvf.producto_id
+        JOIN tipo_verdura_fruta tpf ON pvf.tipo_verdura_fruta_id = tpf.id
+        LEFT JOIN foto f ON p.id = f.producto_id
+        GROUP BY p.id, p.tipo, r.nombre, c.nombre, f.nombre_archivo
+        LIMIT %s OFFSET %s
     """, (per_page, offset))
     productos = cursor.fetchall()
     cursor.close()
