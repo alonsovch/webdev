@@ -64,6 +64,7 @@ export function validarFormulario(event) {
 function mostrarConfirmacion() {
   const confirmacion = confirm("¿Confirma el registro de este producto?");
   if (confirmacion) {
+    formulario.submit();
     alert("Hemos recibido el registro de producto. Muchas gracias.");
     document.getElementById("formulario").style.display = "none";
     document.getElementById("volverInicio").style.display = "block";

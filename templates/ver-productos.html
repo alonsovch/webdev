@@ -1,107 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tabla de Productos</title>
     <link rel="stylesheet" href="../static/styles/styles.css" />
-  </head>
-  <body>
-    <table id="productos">
-      <thead>
-        <tr>
-          <th>Tipo</th>
-          <th>Producto(s)</th>
-          <th>Región</th>
-          <th>Comuna</th>
-          <th>Fotos</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Fruta</td>
-          <td>Arándano</td>
-          <td>Metropolitana</td>
-          <td>Santiago</td>
-          <td>
-            <img
-              src="../static/assets/arandano.jpg"
-              alt="Arándano"
-              width="120"
-              height="120"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Verdura</td>
-          <td>Cebolla</td>
-          <td>Valparaíso</td>
-          <td>Viña del Mar</td>
-          <td>
-            <img
-              src="../static/assets/cebolla.jpg"
-              alt="Cebolla"
-              width="120"
-              height="120"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Fruta</td>
-          <td>Kiwi</td>
-          <td>Biobío</td>
-          <td>Concepción</td>
-          <td>
-            <img
-              src="../static/assets/kiwi.jpg"
-              alt="Kiwi"
-              width="120"
-              height="120"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Fruta</td>
-          <td>Naranja</td>
-          <td>Araucanía</td>
-          <td>Temuco</td>
-          <td>
-            <img
-              src="../static/assets/naranja.jpg"
-              alt="Naranja"
-              width="120"
-              height="120"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Verdura</td>
-          <td>Pimiento</td>
-          <td>Antofagasta</td>
-          <td>Antofagasta</td>
-          <td>
-            <img
-              src="../static/assets/pimiento.jpg"
-              alt="Pimiento"
-              width="120"
-              height="120"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <button id="volver">Volver</button>
+</head>
+<body>
+<table id="productos">
+    <thead>
+    <tr>
+        <th>Tipo</th>
+        <th>Producto(s)</th>
+        <th>Región</th>
+        <th>Comuna</th>
+        <th>Fotos</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for producto in productos %}
+    <tr onclick="window.location.href=`{{ url_for('informacion_producto', producto_id=producto['id']) }}`;" style="cursor: pointer;">
 
-    <script>
-      document.getElementById("volver").addEventListener("click", function () {
+        <td>{{ producto.tipo }}</td>
+        <td>{{ producto.productos }}</td>
+        <td>{{ producto.region }}</td>
+        <td>{{ producto.comuna }}</td>
+        <td>
+          {% if producto.foto_nombre %}
+              <img src="{{ url_for('static', filename='uploads/' + producto.foto_nombre) }}" alt="Foto" width="120" height="120" />
+          {% else %}
+              No hay foto disponible
+          {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<!-- Botones para cambiar de página -->
+<div>
+    {% if page > 1 %}
+        <a href="{{ url_for('ver_productos', page=page-1) }}">Página Anterior</a>
+    {% endif %}
+    {% if productos|length == per_page %}
+        <a href="{{ url_for('ver_productos', page=page+1) }}">Siguiente Página</a>
+    {% endif %}
+</div>
+
+<button id="volver">Volver</button>
+
+<script>
+    document.getElementById("volver").addEventListener("click", function () {
         window.location.href = "/";
-      });
-      let filas = document.querySelectorAll("#productos tbody tr");
-      filas.forEach(function (fila) {
-        fila.addEventListener("click", function () {
-          window.location.href = "informacion-producto";
-        });
-      });
-    </script>
-  </body>
+    });
+</script>
+</body>
 </html>

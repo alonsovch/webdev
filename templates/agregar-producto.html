@@ -6,8 +6,9 @@
     <title>Agregar producto</title>
     <link rel="stylesheet" href="../static/styles/styles.css" />
   </head>
+  {% block content %}
   <body>
-    <form id="formulario">
+    <form id="formulario" action="agregar-producto" method="POST" enctype="multipart/form-data">
       <div>
         <label for="tipo-producto">Tipo producto</label>
         <select name="tipo-producto" id="tipo-producto">
@@ -32,7 +33,7 @@
       </div>
       <div>
         <label for="multimedia">Fotos de productos</label>
-        <input type="file" id="multimedia" name="multimedia" multiple />
+        <input type="file" id="multimedia" name="multimedia" multiple/>
       </div>
       <div>
         <label for="region">Región</label>
@@ -73,11 +74,12 @@
           size="15"
         />
       </div>
-      <button type="submit">Agregar Producto(s)</button>
+      <button id="agregarProductoBtn">Agregar Producto(s)</button>
     </form>
     <button id="volverInicio" style="display: none">
       Volver a la página de inicio
     </button>
     <script src="../static/scripts/scriptProducto.js" type="module"></script>
   </body>
+  {% endblock %}
 </html>

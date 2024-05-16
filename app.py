@@ -1,10 +1,14 @@
-from flask import Flask, render_template, request
-from database.db import get_connection
-
+from flask import Flask, render_template, request, url_for
+import utils.validations as val
+import database.db as db
+from werkzeug.utils import secure_filename
+import os
+import flask
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads'
+PRODUCTS_PER_PAGE = 5
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 #16MB
@@ -21,20 +25,35 @@ def index():
 def agregar_pedido():
     return render_template('agregar-pedido.html')
 
-@app.route('/agregar-producto', method=('GET', 'POST'))
+@app.route('/agregar-producto', methods=['GET', 'POST'])
 def agregar_producto():
     if request.method == 'GET':
         return render_template('agregar-producto.html')
     elif request.method == 'POST':
         tipo_producto = request.form['tipo-producto']
-        producto = request.form['producto']
+        producto = request.form.getlist('producto')
         descripcion = request.form['descripcion']
-        multimedia = request.form['multimedia']
+        multimedia = flask.request.files.getlist('multimedia')
         region = request.form['region']
         comuna = request.form['comuna']
         nombre_productor = request.form['nombre-productor']
         email_productor = request.form['email-productor']
         numero_productor = request.form['numero-productor']
+        if (val.validate_tipo_producto(tipo_producto) and val.validate_productos(producto) and val.validate_multimedia(multimedia) and val.validate_region(region) and val.validate_comuna(comuna, region) and val.validate_nombre_productor(nombre_productor) and val.validate_email_productor(email_productor) and val.validate_numero_productor(numero_productor)):
+            comuna_id = db.get_comuna_id(comuna)
+            db.registrar_producto(tipo_producto, comuna_id, nombre_productor, email_productor, numero_productor, descripcion)
+            producto_id = db.get_last_id()
+            for p in producto:
+                tipo_id = db.get_tipo_id(p)
+                db.registrar_producto_verdura_fruta(producto_id, tipo_id)
+            for img in multimedia:
+                filename = secure_filename(img.filename)
+                route = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                img.save(route)
+                db.registrar_foto(route, filename, producto_id)
+            return render_template('volver-inicio.html')
+        else:
+            return render_template('producto-no-agregado.html')
     else:
         return "Método no permitido"
     
@@ -43,9 +62,11 @@ def agregar_producto():
 def informacion_pedido():
     return render_template('informacion-pedido.html')
 
-@app.route('/informacion-producto')
-def informacion_producto():
-    return render_template('informacion-producto.html')
+@app.route('/informacion-producto/<int:producto_id>')
+def informacion_producto(producto_id):
+    # Obtener la información del producto según su ID
+    producto = db.get_producto_por_id(producto_id)
+    return render_template('informacion-producto.html', producto=producto)
 
 @app.route('/ver-pedidos')
 def ver_pedidos():
@@ -53,12 +74,15 @@ def ver_pedidos():
 
 @app.route('/ver-productos')
 def ver_productos():
-    return render_template('ver-productos.html')
+    page = request.args.get('page', default=1, type=int)
+    productos = db.get_productos_paginados(page, PRODUCTS_PER_PAGE)
+    return render_template('ver-productos.html', productos=productos, page=page, per_page=PRODUCTS_PER_PAGE)
+
 
 @app.route('/check_db')
 def check_db():
     try:
-        conn = get_connection()
+        conn = db.get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM region")
         data = cursor.fetchall()
@@ -66,7 +90,6 @@ def check_db():
         conn.close() 
 
         if data:
-            print(data)
             return "Conexión exitosa a MySQL en Docker"
     except Exception as e:
         return f"Error de conexión: {str(e)}"
