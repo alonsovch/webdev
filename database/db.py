@@ -36,10 +36,19 @@ def get_tipo_id(tipo):
     conn.close()
     return id
 
-def get_last_id():
+def get_last_product_id():
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT MAX(id) FROM producto")
+    last_id = cursor.fetchone()[0]
+    cursor.close()
+    conn.close()
+    return last_id
+
+def get_last_pedido_id():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT MAX(id) FROM pedido")
     last_id = cursor.fetchone()[0]
     cursor.close()
     conn.close()
@@ -51,12 +60,28 @@ def registrar_producto(tipo, comuna_id, nombre_productor, email_productor, celul
     cursor.execute("INSERT INTO producto (tipo, descripcion, comuna_id, nombre_productor, email_productor, celular_productor) VALUES (%s, %s, %s, %s, %s, %s)", (tipo, descripcion, comuna_id, nombre_productor, email_productor, celular_productor))
     conn.commit()
     cursor.close()
-    conn.close()
+    conn.close() 
+
+def registrar_pedido(tipo, comuna_id, nombre_comprador, email_comprador, celular_comprador, descripcion="",):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO pedido (tipo, descripcion, comuna_id, nombre_comprador, email_comprador, celular_comprador) VALUES (%s, %s, %s, %s, %s, %s)", (tipo, descripcion, comuna_id, nombre_comprador, email_comprador, celular_comprador))
+    conn.commit()
+    cursor.close()
+    conn.close()   
 
 def registrar_producto_verdura_fruta(producto_id, tipo_verdura_fruta_id):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("INSERT INTO producto_verdura_fruta (producto_id, tipo_verdura_fruta_id) VALUES (%s, %s)", (producto_id, tipo_verdura_fruta_id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def registrar_pedido_verdura_fruta(tipo_verdura_fruta_id, pedido_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO pedido_verdura_fruta (tipo_verdura_fruta_id, pedido_id) VALUES (%s, %s)", (tipo_verdura_fruta_id, pedido_id))
     conn.commit()
     cursor.close()
     conn.close()

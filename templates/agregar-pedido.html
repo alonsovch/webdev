@@ -6,8 +6,9 @@
     <title>Agregar pedido</title>
     <link rel="stylesheet" href="../static/styles/styles.css" />
   </head>
+  {% block content %}
   <body>
-    <form id="formulario">
+    <form id="formulario" action="agregar-pedido" method="POST" enctype="multipart/form-data">
       <div>
         <label for="tipo-producto">Tipo producto</label>
         <select name="tipo-producto" id="tipo-producto">
@@ -69,11 +70,12 @@
           size="15"
         />
       </div>
-      <button type="submit">Agregar Pedido</button>
+      <button id="agregarPedidoBtn">Agregar Pedido</button>
     </form>
     <button id="volverInicio" style="display: none">
       Volver a la página de inicio
     </button>
     <script src="../static/scripts/scriptPedido.js" type="module"></script>
   </body>
+  {% endblock %}
 </html>

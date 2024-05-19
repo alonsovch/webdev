@@ -59,6 +59,7 @@ export function validarFormulario(event) {
 function mostrarConfirmacion() {
   const confirmacion = confirm("¿Confirma el registro de este pedido?");
   if (confirmacion) {
+    formulario.submit();
     alert("Hemos recibido su pedido. Muchas gracias.");
     document.getElementById("formulario").style.display = "none";
     document.getElementById("volverInicio").style.display = "block";

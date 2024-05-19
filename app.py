@@ -21,9 +21,32 @@ def request_entity_too_large(error):
 def index():
     return render_template('index.html')
 
-@app.route('/agregar-pedido')
+@app.route('/agregar-pedido', methods=['GET', 'POST'])
 def agregar_pedido():
-    return render_template('agregar-pedido.html')
+    if request.method == 'GET':
+        return render_template('agregar-pedido.html')
+    elif request.method == 'POST':
+        tipo_producto = request.form['tipo-producto']
+        producto = request.form.getlist('producto')
+        descripcion = request.form['descripcion']
+        region = request.form['region']
+        comuna = request.form['comuna']
+        nombre_comprador = request.form['nombre-comprador']
+        email_comprador = request.form['email-comprador']
+        numero_comprador = request.form['numero-comprador']
+        if (val.validate_tipo_producto(tipo_producto) and val.validate_productos(producto) and val.validate_region(region) and val.validate_comuna(comuna, region) and val.validate_nombre_productor(nombre_comprador) and val.validate_email_productor(email_comprador) and val.validate_numero_productor(numero_comprador)):
+            comuna_id = db.get_comuna_id(comuna)
+            db.registrar_pedido(tipo_producto, comuna_id, nombre_comprador, email_comprador, numero_comprador, descripcion)
+            pedido_id = db.get_last_pedido_id()
+            for p in producto:
+                tipo_id = db.get_tipo_id(p)
+                db.registrar_pedido_verdura_fruta(tipo_id, pedido_id)
+            return render_template('volver-inicio.html')
+        else:
+            return render_template('producto-no-agregado.html')
+    else:
+        return "Método no permitido"
+
 
 @app.route('/agregar-producto', methods=['GET', 'POST'])
 def agregar_producto():
@@ -42,7 +65,7 @@ def agregar_producto():
         if (val.validate_tipo_producto(tipo_producto) and val.validate_productos(producto) and val.validate_multimedia(multimedia) and val.validate_region(region) and val.validate_comuna(comuna, region) and val.validate_nombre_productor(nombre_productor) and val.validate_email_productor(email_productor) and val.validate_numero_productor(numero_productor)):
             comuna_id = db.get_comuna_id(comuna)
             db.registrar_producto(tipo_producto, comuna_id, nombre_productor, email_productor, numero_productor, descripcion)
-            producto_id = db.get_last_id()
+            producto_id = db.get_last_product_id()
             for p in producto:
                 tipo_id = db.get_tipo_id(p)
                 db.registrar_producto_verdura_fruta(producto_id, tipo_id)
