@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, jsonify
 import utils.validations as val
 import database.db as db
 from werkzeug.utils import secure_filename
@@ -81,19 +81,21 @@ def agregar_producto():
         return "Método no permitido"
     
     
-@app.route('/informacion-pedido')
-def informacion_pedido():
-    return render_template('informacion-pedido.html')
+@app.route('/informacion-pedido/<int:pedido_id>')
+def informacion_pedido(pedido_id):
+    pedido = db.get_pedido_por_id(pedido_id)
+    return render_template('informacion-pedido.html', pedido=pedido)
 
 @app.route('/informacion-producto/<int:producto_id>')
 def informacion_producto(producto_id):
-    # Obtener la información del producto según su ID
     producto = db.get_producto_por_id(producto_id)
     return render_template('informacion-producto.html', producto=producto)
 
 @app.route('/ver-pedidos')
 def ver_pedidos():
-    return render_template('ver-pedidos.html')
+    page = request.args.get('page', default=1, type=int)
+    pedidos = db.get_pedidos_paginados(page, PRODUCTS_PER_PAGE)
+    return render_template('ver-pedidos.html', pedidos=pedidos, page=page, per_page=PRODUCTS_PER_PAGE)
 
 @app.route('/ver-productos')
 def ver_productos():
@@ -112,9 +114,25 @@ def check_db():
         conn.close() 
 
         if data:
+            db.get_total_productos_tipo_producto()
+            db.get_total_pedidos_por_comuna()
             return "Conexión exitosa a MySQL en Docker"
     except Exception as e:
         return f"Error de conexión: {str(e)}"
+    
+@app.route('/api/total_productos_tipo_producto', methods=['GET'])
+def total_productos_tipo_producto():
+    total = db.get_total_productos_tipo_producto()
+    return jsonify(total)
+
+@app.route('/api/total_pedidos_por_comuna', methods=['GET'])
+def total_pedidos_por_comuna():
+    total = db.get_total_pedidos_por_comuna()
+    return jsonify(total)
+
+@app.route('/graficos')
+def graficos():
+    return render_template('graficos.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

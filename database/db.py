@@ -115,6 +115,26 @@ def get_productos_paginados(page, per_page):
     print(productos)
     return productos
 
+def get_pedidos_paginados(page, per_page):
+    conn = get_connection()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    offset = (page - 1) * per_page
+    cursor.execute("""
+        SELECT p.id, p.tipo, p.nombre_comprador, GROUP_CONCAT(tpf.nombre) AS pedidos, r.nombre AS region, c.nombre AS comuna
+        FROM pedido p
+        JOIN comuna c ON p.comuna_id = c.id
+        JOIN region r ON c.region_id = r.id
+        JOIN pedido_verdura_fruta pvf ON p.id = pvf.pedido_id
+        JOIN tipo_verdura_fruta tpf ON pvf.tipo_verdura_fruta_id = tpf.id
+        GROUP BY p.id, p.tipo, p.nombre_comprador, r.nombre, c.nombre
+        LIMIT %s OFFSET %s;
+    """, (per_page, offset))
+    pedidos = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    print(pedidos)
+    return pedidos
+
 def get_total_productos():
     conn = get_connection()
     cursor = conn.cursor()
@@ -142,3 +162,62 @@ def get_producto_por_id(producto_id):
     cursor.close()
     conn.close()
     return producto
+
+
+def get_pedido_por_id(pedido_id):
+    conn = get_connection()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.execute("""
+        SELECT p.tipo, p.nombre_comprador, p.email_comprador, p.celular_comprador, p.descripcion, GROUP_CONCAT(tpf.nombre) AS productos, r.nombre AS region, c.nombre AS comuna
+        FROM pedido p
+        JOIN comuna c ON p.comuna_id = c.id
+        JOIN region r ON c.region_id = r.id
+        JOIN pedido_verdura_fruta pvf ON p.id = pvf.pedido_id
+        JOIN tipo_verdura_fruta tpf ON pvf.tipo_verdura_fruta_id = tpf.id
+        WHERE p.id = %s
+        GROUP BY p.id, p.tipo, p.descripcion, r.nombre, c.nombre
+    """, (pedido_id,))
+    pedido = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return pedido
+
+def get_total_productos_tipo_producto():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT 
+    tpf.nombre AS tipo_verdura_fruta,
+    COUNT(pvf.producto_id) AS total_productos
+    FROM 
+        producto_verdura_fruta pvf
+    JOIN 
+        tipo_verdura_fruta tpf ON pvf.tipo_verdura_fruta_id = tpf.id
+    GROUP BY 
+        tpf.nombre;
+    """)
+    total = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    result = [{'tipo_verdura_fruta': row[0], 'total_productos': row[1]} for row in total]
+    return result
+
+def get_total_pedidos_por_comuna():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT 
+    c.nombre AS comuna,
+    COUNT(p.id) AS total_pedidos
+    FROM 
+        pedido p
+    JOIN 
+        comuna c ON p.comuna_id = c.id
+    GROUP BY 
+        c.nombre;
+    """)
+    total = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    result = [{'comuna': row[0], 'total_pedidos': row[1]} for row in total]
+    return result

@@ -15,23 +15,19 @@
   <body>
     <h1>Información del Pedido</h1>
 
-    <p><strong>Tipo de Producto:</strong> Fruta</p>
-    <p><strong>Producto(s):</strong> Arándano, Naranja, Frutilla, Limón</p>
+    <p><strong>Tipo de Producto:</strong> {{ pedido.tipo }} </p>
+    <p><strong>Producto(s):</strong> {{ pedido.productos }}</p>
+    {% if pedido.descripcion %}
     <p>
-      <strong>Descripción:</strong> Quiero frutas maduras por favor, necesito la
-      mejor calidad ya que este pedido es para un evento.
+      <strong>Descripción:</strong>{{ pedido.descripcion }}
     </p>
-    <p><strong>Región:</strong> Metropolitana</p>
-    <p><strong>Comuna:</strong> Santiago</p>
-    <p><strong>Nombre del comprador:</strong> Gustavo Fring</p>
-    <p><strong>Email del comprador:</strong> gfring99@polloshermanos.net</p>
-    <p><strong>Número de Celular del comprador:</strong> 56987654321</p>
-    <p><button id="volver">Volver</button></p>
+    {% endif %}
+    <p><strong>Región:</strong> {{ pedido.region }}</p>
+    <p><strong>Comuna:</strong> {{ pedido.comuna }}</p>
+    <p><strong>Nombre del comprador:</strong> {{ pedido.nombre_comprador }}</p>
+    <p><strong>Email del comprador:</strong> {{ pedido.email_comprador }}</p>
+    <p><strong>Número de Celular del comprador:</strong>{{ pedido.celular_comprador }}</p>
+    <p><button id="volver" onclick="window.history.back();">Volver</button></p>
 
-    <script>
-      document.getElementById("volver").addEventListener("click", function () {
-        window.location.href = "/ver-pedidos";
-      });
-    </script>
   </body>
 </html>

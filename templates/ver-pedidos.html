@@ -18,55 +18,31 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Fruta</td>
-          <td>Arándano, Durazno, Kaki, Higo</td>
-          <td>Metropolitana</td>
-          <td>Santiago</td>
-          <td>Gustavo Fring</td>
+        {% for pedido in pedidos %}
+        <tr onclick="window.location.href=`{{ url_for('informacion_pedido', pedido_id=pedido['id']) }}`;" style="cursor: pointer;">
+          <td>{{ pedido.tipo }}</td>
+          <td>{{ pedido.pedidos }}</td>
+          <td>{{ pedido.region }}</td>
+          <td>{{ pedido.comuna }}</td>
+          <td>{{ pedido.nombre_comprador }}</td>
         </tr>
-        <tr>
-          <td>Verdura</td>
-          <td>Cebolla, Puerro, Zanahoria</td>
-          <td>Valparaíso</td>
-          <td>Viña del Mar</td>
-          <td>Jesse Pinkman</td>
-        </tr>
-        <tr>
-          <td>Fruta</td>
-          <td>Kiwi, Uva, Avellana</td>
-          <td>Biobío</td>
-          <td>Concepción</td>
-          <td>Skyler White</td>
-        </tr>
-        <tr>
-          <td>Fruta</td>
-          <td>Naranja, Manzana, Platano</td>
-          <td>Araucanía</td>
-          <td>Temuco</td>
-          <td>Walter Jr</td>
-        </tr>
-        <tr>
-          <td>Verdura</td>
-          <td>Pimiento, Lechuga, Tomate</td>
-          <td>Antofagasta</td>
-          <td>Antofagasta</td>
-          <td>Mike Ehrmantraut</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
+    <div>
+      {% if page > 1 %}
+          <a href="{{ url_for('ver_pedidos', page=page-1) }}">Página Anterior</a>
+      {% endif %}
+      {% if pedidos|length == per_page %}
+          <a href="{{ url_for('ver_pedidos', page=page+1) }}">Siguiente Página</a>
+      {% endif %}
+  </div>
     <button id="volver">Volver</button>
 
     <script>
       document.getElementById("volver").addEventListener("click", function () {
-        window.location.href = "/";
+          window.location.href = "/";
       });
-      let filas = document.querySelectorAll("#pedidos tbody tr");
-      filas.forEach(function (fila) {
-        fila.addEventListener("click", function () {
-          window.location.href = "informacion-pedido";
-        });
-      });
-    </script>
+  </script>
   </body>
 </html>

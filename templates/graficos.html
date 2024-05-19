@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gráficos</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <style>
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .chart {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="charts-container">
+        <div id="productos-chart" class="chart"></div>
+        <div id="pedidos-chart" class="chart"></div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $.getJSON('/api/total_productos_tipo_producto', function(data) {
+                const categories = data.map(item => item.tipo_verdura_fruta);
+                const counts = data.map(item => item.total_productos);
+
+                Highcharts.chart('productos-chart', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Total de Productos por Tipo de Verdura o Fruta'
+                    },
+                    xAxis: {
+                        categories: categories,
+                        title: {
+                            text: 'Tipo de Verdura o Fruta'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Total de Productos'
+                        }
+                    },
+                    series: [{
+                        name: 'Productos',
+                        data: counts
+                    }]
+                });
+            });
+
+            $.getJSON('/api/total_pedidos_por_comuna', function(data) {
+                const categories = data.map(item => item.comuna);
+                const counts = data.map(item => item.total_pedidos);
+
+                Highcharts.chart('pedidos-chart', {
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'Total de Pedidos por Comuna'
+                    },
+                    xAxis: {
+                        categories: categories,
+                        title: {
+                            text: 'Comuna'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Total de Pedidos'
+                        },
+                        allowDecimals: false
+                    },
+                    series: [{
+                        name: 'Pedidos',
+                        data: counts
+                    }]
+                });
+            });
+        });
+    </script>
+</body>
+</html>
