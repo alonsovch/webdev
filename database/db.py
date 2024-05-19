@@ -112,7 +112,6 @@ def get_productos_paginados(page, per_page):
     productos = cursor.fetchall()
     cursor.close()
     conn.close()
-    print(productos)
     return productos
 
 def get_pedidos_paginados(page, per_page):
@@ -132,7 +131,6 @@ def get_pedidos_paginados(page, per_page):
     pedidos = cursor.fetchall()
     cursor.close()
     conn.close()
-    print(pedidos)
     return pedidos
 
 def get_total_productos():
